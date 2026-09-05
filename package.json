@@ -1,0 +1,16 @@
+{
+  "name": "ensemble-shop",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Tom, Ana and Priya's shop: the companion repository to Ship What You Can Prove.",
+  "scripts": {
+    "test": "vitest run",
+    "test:acceptance": "vitest run test/acceptance",
+    "test:unit": "vitest run test/unit test/characterization test/smoke.test.ts"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3",
+    "vitest": "^3.2.7"
+  }
+}

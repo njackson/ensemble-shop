@@ -1,0 +1,24 @@
+name: gate
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: pnpm }
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm test                       # the gate. No pipes, no || true.
+  gate-can-fail:                             # Module 07: a gate that cannot fail is not a gate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: pnpm }
+      - run: pnpm install --frozen-lockfile
+      - id: tripwire
+        run: npx vitest run test/tripwire.test.ts
+        continue-on-error: true              # the step goes red; the job carries on — the one legitimate use
+      - run: test "${{ steps.tripwire.outcome }}" = "failure"   # green only because the tripwire went red
