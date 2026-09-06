@@ -8,13 +8,13 @@ const prices = loadPriceList()
 
 describe('priceLine, as it is', () => {
   it('47 × BC3001', () => {
-    // 47 × $12.99 is $610.53. The code says $612.42. Somewhere it adds $1.89 nobody asked for.
-    // Whose call that is: Priya's. Not the code's, and not ours. See docs/refinement.
-    expect(priceLine({ code: 'BC3001', qty: 47 }, prices)).toBe(61242)
+    // Was 61242: a $1.89 carton fee from 2019 that Priya confirmed was retired in 2021.
+    // Changed on purpose, in this commit, and nowhere else.
+    expect(priceLine({ code: 'BC3001', qty: 47 }, prices)).toBe(61053)
   })
   it('1 × BC3001', () => { expect(priceLine({ code: 'BC3001', qty: 1 }, prices)).toBe(1450) })
   it('12 × BC3001', () => { expect(priceLine({ code: 'BC3001', qty: 12 }, prices)).toBe(17400) })
   it('36 × BC3001 — at the bracket', () => { expect(priceLine({ code: 'BC3001', qty: 36 }, prices)).toBe(46764) })
-  it('37 × BC3001 — the fee appears', () => { expect(priceLine({ code: 'BC3001', qty: 37 }, prices)).toBe(48252) })
+  it('37 × BC3001 — no fee any more', () => { expect(priceLine({ code: 'BC3001', qty: 37 }, prices)).toBe(48063) })
   it('unknown style throws', () => { expect(() => priceLine({ code: 'NOPE', qty: 1 }, prices)).toThrow() })
 })

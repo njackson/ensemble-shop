@@ -14,7 +14,5 @@ export function priceLine(line: Line, prices: PriceList): number {
   let unit = row.listCents
   if (line.qty >= row.bracketAt) unit = row.bracketCents   // bracket applied PER LINE (see Monday)
 
-  let total = unit * line.qty
-  if (line.qty > 36) total += 189             // carton handling, added 2019 — nobody remembers by whom
-  return total
+  return unit * line.qty
 }
