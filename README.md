@@ -1,5 +1,15 @@
 # Tom, Ana and Priya's shop
 
+**Start here.** This repository goes with the guide *Ship What You Can Prove*; read the guide's
+[contents page](https://claude.ai/code/artifact/f54086ec-ebe4-4c96-a4cd-d45024502f08) first, then come
+back. Three commands get you working:
+
+```
+git switch -c my-01 01-before    # the story's first checkpoint; each module has one (table below)
+pnpm install && pnpm test
+/guide 01                        # in Claude Code: the tutor runs the module's drill here
+```
+
 This is the companion repository to **Ship What You Can Prove**. It is the shop the course's story
 happens in: a small wholesale storefront with a pricing file nobody wants to open, a ticket that went
 wrong on a Monday and right on a Tuesday, and an order of 47 shirts, 20 red and 27 blue, that keeps
