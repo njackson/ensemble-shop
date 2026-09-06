@@ -70,6 +70,10 @@ right-hand column; if it is absent, the drill is not done, however good the conv
 | 12 | Pick a recent agent run and answer: which tools, how many times, which model, what did it see first. | Whether each was answerable from what exists. If none were, that is the finding; record it. |
 | 13 | Run the unchanged system five times across five fixtures; look at the spread. | A fixtures directory with at least five saved inputs; five recorded runs; the spread per criterion written down. |
 
+For Module 13, if the reader asks for the week: run one round of `improve-agent` on their fixtures and
+permutation-test the winner against the baseline. Evidence: the frontier file with its ownership line and a
+budget, one logged round, and the confidence level written down before the test was run.
+
 Before Module 07's drill and anything that fans out (09, 11), confirm the gate can fail. If it cannot,
 that becomes the drill, whatever module was asked for.
 
