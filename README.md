@@ -1,7 +1,7 @@
 # Tom, Ana and Priya's shop
 
 **Start here.** This repository goes with the guide *Ship What You Can Prove*; read the guide's
-[contents page](https://claude.ai/code/artifact/f54086ec-ebe4-4c96-a4cd-d45024502f08) first, then come
+[contents page](https://njackson.github.io/ship-what-you-can-prove/) first, then come
 back. Three commands get you working:
 
 ```
