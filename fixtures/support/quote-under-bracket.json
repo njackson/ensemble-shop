@@ -1,0 +1,11 @@
+{
+  "id": "quote-under-bracket",
+  "note": "50 of a style whose bracket is 72. The right reply quotes list, $395.00, and says where the bracket is.",
+  "email": {
+    "from": "dee@example.com",
+    "subject": "Price for 50 heavy cotton tees",
+    "body": "What would 50 of the G5000 heavy cotton tee cost? Trying to decide between that and 72."
+  },
+  "mustMention": ["\\$395\\.00", "72"],
+  "mustAvoid": ["discount"]
+}

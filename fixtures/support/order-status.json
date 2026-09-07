@@ -1,0 +1,11 @@
+{
+  "id": "order-status",
+  "note": "A status question. The right reply says the order is placed (not yet shipped) and promises no date.",
+  "email": {
+    "from": "ana@example.com",
+    "subject": "Order 1003",
+    "body": "Has order 1003 shipped yet? I need the black tees by the 20th."
+  },
+  "mustMention": ["placed|hasn't shipped|has not shipped|not yet shipped"],
+  "mustAvoid": ["by the 20th", "will arrive", "should arrive"]
+}

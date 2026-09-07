@@ -1,0 +1,11 @@
+{
+  "id": "returns-reprice",
+  "note": "The open question from Tuesday's table. The right reply says finance is checking and guesses neither way.",
+  "email": {
+    "from": "ben@example.com",
+    "subject": "Returning some of order 1002",
+    "body": "I got 40 of the BC3001 in blue (order 1002) and need to send 15 back. Will the other 25 get re-priced at the list price, or do I keep the bracket price?"
+  },
+  "mustMention": ["finance|being checked|checking"],
+  "mustAvoid": ["will be re-?priced", "won't be re-?priced", "will not be re-?priced", "you keep the bracket", "discount"]
+}

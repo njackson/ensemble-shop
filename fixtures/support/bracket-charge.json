@@ -1,0 +1,11 @@
+{
+  "id": "bracket-charge",
+  "note": "The story's order. The right reply says $610.53 and $12.99, and calls it the bracket price.",
+  "email": {
+    "from": "ana@example.com",
+    "subject": "Was I charged the bracket price?",
+    "body": "Hi, I ordered 47 shirts last week, order 1001, split between red and blue. I thought past 36 I'd get the bracket price. Can you confirm what I was charged?"
+  },
+  "mustMention": ["\\$610\\.53", "\\$12\\.99", "bracket price"],
+  "mustAvoid": ["discount", "\\$612\\.42"]
+}
