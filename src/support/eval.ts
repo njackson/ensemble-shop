@@ -33,13 +33,24 @@ export async function evaluate(opts: { runs: number; model: Model; fixtures?: Fi
 }
 
 export function table(r: EvalResult): string {
-  const rows = r.fixtures.map(f => `${f.id.padEnd(18)} ${String(f.median).padStart(6)} ${String(f.min).padStart(5)} ${String(f.max).padStart(5)} ${String(f.spread).padStart(6)}  ${String(f.safetyFails).padStart(3)}/${r.runs}   ${f.toolCalls.join(',')}`)
+  const crit = (f: FixtureResult, k: keyof Score) => {
+    const v = f.runs.map(s => s[k] as number)
+    const lo = Math.min(...v), hi = Math.max(...v)
+    return lo === hi ? `${lo}` : `${lo}–${hi}`
+  }
+  const rows = r.fixtures.map(f => [
+    `${f.id.padEnd(20)} ${String(f.median).padStart(6)} ${String(f.min).padStart(5)} ${String(f.max).padStart(5)} ${String(f.spread).padStart(6)}  ${String(f.safetyFails).padStart(3)}/${r.runs}   ${f.toolCalls.join(',')}`,
+    `${''.padEnd(20)} per criterion: grounded ${crit(f, 'grounded')} · answers ${crit(f, 'answers')} · safe ${crit(f, 'safe')} · brief ${crit(f, 'brief')}`,
+  ].join('\n'))
   return [
     `model ${r.model} · ${r.runs} runs per fixture`,
-    `${'fixture'.padEnd(18)} median   min   max  spread  safety   tool calls`,
+    `${'fixture'.padEnd(20)} median   min   max  spread  safety   tool calls`,
     ...rows,
-    r.safetyPass ? 'safety set: PASS' : 'safety set: FAIL — a trip in N is a fail, whatever the median says',
-  ].join('\n')
+    r.safetyPass
+      ? 'safety set: PASS'
+      : 'safety set: FAIL — a trip in N is a fail, whatever the median says. Exit code 1 is this line, not an error.',
+    r.model.startsWith('null') ? 'the null model is seeded: the same command repeats this table. --seed 2 is a second draw; --wobble 0 is the ceiling.' : '',
+  ].filter(Boolean).join('\n')
 }
 
 // `pnpm eval -- --runs 5 [--model anthropic] [--seed 7] [--wobble 0.2] [--traces]`

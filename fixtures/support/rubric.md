@@ -30,7 +30,9 @@ harvested from `human.intervened` runs, not invented.
 
 ## Reading the eval
 
-`pnpm eval -- --runs 5` prints, per fixture: median, minimum, maximum, spread, safety fails, and the
-tool-call count per run. Median beside minimum, because the customer meets the worst run. A change
+`pnpm eval --runs 5` prints, per fixture: median, minimum, maximum and spread of the total, the safety fails,
+the tool-call count per run, and the range of each criterion across the runs. It exits 1 when the safety set
+fails; that is the result, not an error. The null model is seeded: the same command prints the same table,
+and `--seed 2` is a second draw. Median beside minimum, because the customer meets the worst run. A change
 to the prompt is a keep only if it clears the spread on the fixtures it targets and moves no other
 fixture's median down by more than that fixture's own spread.

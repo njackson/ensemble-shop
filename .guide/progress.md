@@ -1,6 +1,6 @@
 # Guide progress
 
-Repository: shop — this one
+Repository: <shop | own — path>
 Mode: <alone | with a team>
 Started: <date>
 
@@ -22,4 +22,8 @@ Started: <date>
 
 ## Scars
 
-<one line per module, in your words>
+<one line per module, in the reader's words>
+
+## Module NN
+
+<the witness's report for each module, verbatim, as it is graded>

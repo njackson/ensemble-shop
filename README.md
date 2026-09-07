@@ -19,8 +19,9 @@ the bracket is 36 units, and past it the price is $12.99.
 
 ## The story, as tags
 
-Each checkpoint is a git tag. Start a working branch from the one before the module you are on, do the
-module's drill, and only then look at what the reference did.
+Each checkpoint is a git tag. A module's drill runs on a branch from the checkpoint before it, and the
+reference is looked at only afterwards; the tutor does the branching and the diffing for you and says
+which tag it used.
 
 | Tag | Where the story is | Module |
 |---|---|---|
@@ -37,7 +38,7 @@ module's drill, and only then look at what the reference did.
 | `12-traced` | The support agent: a trace per run, guardrails in code, a tool budget. | 12 |
 | `13-fixtures` | Five fixtures, a rubric as code, and an eval that shows the spread. | 13 |
 
-`main` is the end of the story, and the place to run modules 06, 08 and 10, which need no checkpoint.
+`main` is the end of the story, and where 03, 06, 07, 08, 10, 11, 12 and 13 run; they need no checkpoint.
 
 ## What each module runs on
 
@@ -61,7 +62,8 @@ pnpm test                                   # the gate; CI runs exactly this
 pnpm start                                  # the shop on :3000; BRACKET_PRICING=on releases the bracket rule
 pnpm support fixtures/support/bracket-charge.json            # one support run, null model, trace to runs/
 pnpm support fixtures/support/bracket-charge.json anthropic  # the real model; needs ANTHROPIC_API_KEY
-pnpm eval --runs 5                          # the eval on the null model, wobble 0.2, seeded
+pnpm eval --runs 5                          # the eval on the null model, wobble 0.2; exits 1 when the safety set fails
+pnpm eval --runs 5 --seed 2                 # seeded, so this is how you get a second draw
 pnpm eval --runs 5 --wobble 0               # the model behaving: the ceiling
 pnpm eval --runs 5 --model anthropic        # the real model; costs money
 ```
