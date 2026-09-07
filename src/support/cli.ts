@@ -8,10 +8,11 @@ import { fileTraceWriter } from './trace.js'
 
 // `pnpm support -- fixtures/support/bracket-charge.json [--model anthropic]`
 // One run: the reply, what the guardrail said, and where the trace went.
-const file = process.argv[2]
+const args = process.argv.slice(2).filter(a => a !== '--')   // pnpm passes the separator through
+const file = args[0]
 if (!file) { console.error('usage: pnpm support -- <fixture.json> [--model anthropic|null]'); process.exit(2) }
 const fixture = JSON.parse(readFileSync(file, 'utf8')) as Fixture
-const model = process.argv.includes('anthropic') ? anthropicModel() : noisyNullModel({ seed: Date.now() % 1000 })
+const model = args.includes('anthropic') ? anthropicModel() : noisyNullModel({ seed: Date.now() % 1000 })
 
 const draft = await draftReply({ email: fixture.email, model, tools: { store: fixtureStore(), prices: loadPriceList() }, fixtureId: fixture.id, traceWriter: fileTraceWriter() })
 console.log(draft.reply)
