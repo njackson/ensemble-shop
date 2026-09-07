@@ -1,8 +1,8 @@
 # Tom, Ana and Priya's shop
 
 **Start here.** This repository goes with the guide *Ship What You Can Prove*; read the guide's
-[contents page](https://njackson.github.io/ship-what-you-can-prove/) first, then come
-back. Three commands get you working:
+[contents page](https://njackson.github.io/ship-what-you-can-prove/) first, then come back. Three
+commands get you working:
 
 ```
 git switch -c my-01 01-before    # the story's first checkpoint; each module has one (table below)
@@ -10,43 +10,75 @@ pnpm install && pnpm test
 /guide 01                        # in Claude Code: the tutor runs the module's drill here
 ```
 
-This is the companion repository to **Ship What You Can Prove**. It is the shop the course's story
-happens in: a small wholesale storefront with a pricing file nobody wants to open, a ticket that went
-wrong on a Monday and right on a Tuesday, and an order of 47 shirts, 20 red and 27 blue, that keeps
-coming back.
+It is the shop the course's story happens in: a small wholesale storefront with a pricing file nobody
+wants to open, a ticket that went wrong on a Monday and right on a Tuesday, an order of 47 shirts, 20
+red and 27 blue, that keeps coming back, and a support agent that answers customers' email about it.
 
 Tom, Ana and Priya are invented. So is the shop. The numbers are the course's: BC3001 lists at $14.50,
 the bracket is 36 units, and past it the price is $12.99.
 
-## How to use it
+## The story, as tags
 
-Each checkpoint in the story is a git tag. Start a working branch from the one before the module you
-are on, do the module's drill, and only then look at what the reference did:
+Each checkpoint is a git tag. Start a working branch from the one before the module you are on, do the
+module's drill, and only then look at what the reference did.
 
-| Tag | Where the story is |
+| Tag | Where the story is | Module |
+|---|---|---|
+| `01-before` | Monday. The pricing file has no tests and reaches for a database that is not on your laptop. | 01 |
+| `01-pinned` | Ana has made a seam and pinned what `priceLine` does today, dollar eighty-nine and all. | 01 |
+| `02-mapped` | Tuesday's table: the cards, the open question with Priya's name on it. | 02 |
+| `04-named` | The vocabulary file. "Bracket price", not "discount". | 04 |
+| `05-outer-test` | Ana's acceptance test, written in those words, red. | 05 |
+| `05-green` | The agent's inner loop is done: green, then a separate refactor commit. The spec is untouched. | 05 |
+| `09-report` | Thursday's verification report, with the section for what was not verified. | 09 |
+| `03-skeleton` | Checkout, cut into slices. `POST /orders` returns an id and prices nothing. | 03 |
+| `07-flagged` | The order is priced behind `BRACKET_PRICING`; the same deploy charges list with it off. | 07 |
+| `09-backlog` | Four tickets that touch no common file, and one that touches everything. | 09, 11 |
+| `12-traced` | The support agent: a trace per run, guardrails in code, a tool budget. | 12 |
+| `13-fixtures` | Five fixtures, a rubric as code, and an eval that shows the spread. | 13 |
+
+`main` is the end of the story, and the place to run modules 06, 08 and 10, which need no checkpoint.
+
+## What each module runs on
+
+| Module | Material in this repository |
 |---|---|
-| `01-before` | Monday. The pricing file has no tests and reaches for a database that is not on your laptop. |
-| `01-pinned` | Ana has made a seam and pinned what `priceLine` does today, dollar eighty-nine and all. |
-| `02-mapped` | Tuesday's table: the cards, the open question with Priya's name on it. |
-| `04-named` | The vocabulary file. "Bracket price", not "discount". |
-| `05-outer-test` | Ana's acceptance test, written in those words, red. |
-| `05-green` | The agent's inner loop is done: green, then a separate refactor commit. The spec is untouched. |
-| `09-report` | Thursday's verification report, with the section for what was not verified. |
+| 01, 02, 04, 05 | The bracket ticket: `src/pricing/`, `docs/refinement/bracket-pricing.md`, `VOCABULARY.md`, the acceptance test. |
+| 03 | `docs/refinement/checkout-slices.md`; `src/server.ts`; the `03-skeleton` tag. |
+| 06 | Any ticket in `docs/backlog/`, with a room. |
+| 07 | `.github/workflows/ci.yml` (a gate that can fail, and a job that proves it); `docs/flags.md`. |
+| 08 | Whatever scar the last module left you. `.claude/skills/` is where it goes. |
+| 09 | `docs/verification/`; two or more backlog tickets, in worktrees, with their allow-lists. |
+| 10 | `.claude/CLAUDE.md`, read as a stranger. Some of it is wrong. |
+| 11 | The backlog as a queue: which tickets can run together and which must run alone. |
+| 12 | `pnpm support` writes a trace per run to `runs/`. Answer the 3am questions from it. |
+| 13 | `pnpm eval`: five fixtures, N runs, median beside minimum, a safety set that gates. |
+
+## Running it
 
 ```
-git switch -c my-01 01-before      # start Module 01's drill here
-pnpm install && pnpm test
-/guide 01                    # in Claude Code, with the skills in .claude/ loaded
+pnpm test                                   # the gate; CI runs exactly this
+pnpm start                                  # the shop on :3000; BRACKET_PRICING=on releases the bracket rule
+pnpm support fixtures/support/bracket-charge.json            # one support run, null model, trace to runs/
+pnpm support fixtures/support/bracket-charge.json anthropic  # the real model; needs ANTHROPIC_API_KEY
+pnpm eval --runs 5                          # the eval on the null model, wobble 0.2, seeded
+pnpm eval --runs 5 --wobble 0               # the model behaving: the ceiling
+pnpm eval --runs 5 --model anthropic        # the real model; costs money
 ```
 
-The skills the course ships are installed under `.claude/skills/`, the witness under `.claude/agents/`,
-and your progress lives in `.guide/progress.md`. `/guide` reads it and picks up where you
-left off.
+The null model is Shore's nullable (Module 05) applied to a language model: it runs the same loop,
+tools and guardrails with no key and no network, reads the email the way a model would, and wobbles on
+a dial so the eval has a noise floor to measure. The tests never call the real model.
 
 ## What is where
 
-- `src/pricing/priceLine.ts` — the file nobody wants to open.
-- `src/db.ts` — the database `priceLine` reaches for. There is none on your laptop; that is the point.
-- `data/prices.json` — the real price list, which is what you hand it once there is a seam.
-- `test/` — empty of anything useful at `01-before`. That is also the point.
+- `src/pricing/` — the file nobody wanted to open, and the one function that now decides a price.
+- `src/orders.ts` — `priceOrder`: the bracket judged per style across the whole order.
+- `src/server.ts`, `src/store.ts`, `src/flags.ts` — checkout over HTTP, the order store, the flag.
+- `src/support/` — the agent, its tools, guardrails, trace writer, prompt, judge and eval.
+- `fixtures/support/` — the five fixtures, the orders they refer to, and the rubric.
+- `docs/refinement/`, `docs/verification/`, `docs/backlog/`, `docs/flags.md` — the paper trail.
+- `test/acceptance/` — outer tests in the story's words; `test/acceptance/pending/` for red ones.
 - `.github/workflows/ci.yml` — the gate. It runs on every push and it can fail; the second job proves it.
+- `.claude/skills/`, `.claude/agents/witness.md`, `.guide/progress.md` — the course's skills, the
+  verifier, and your progress. `/guide` reads the last one and picks up where you left off.
