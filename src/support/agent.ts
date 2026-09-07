@@ -84,6 +84,10 @@ export async function draftReply(input: DraftInput): Promise<Draft> {
     'context.tokens': usage.input, 'cost.usd': Number(costUsd(model.id, usage).toFixed(5)),
     'guardrail.tripped': !verdict.ok, 'guardrail.violations': verdict.violations,
     'reply.words': reply.split(/\s+/).filter(Boolean).length,
+    // The blob (Module 12, section 2): what the model saw and what it said, kept with the trace so a
+    // bad run can be read, not only found. In production this is stored separately, redacted, and
+    // linked by trace id; here it rides along, because nothing in this repository is a real person.
+    'blob.email': email, 'blob.reply': reply,
   })
   const tracePath = traceWriter.write(trace)
   return { reply, outcome, guardrail: { tripped: !verdict.ok, violations: verdict.violations }, toolCalls: toolNames.length, trace, tracePath }

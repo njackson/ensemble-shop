@@ -41,10 +41,13 @@ export function anthropicModel(opts: { model?: string } = {}): Model {
         tools: tools as unknown as NonNullable<Parameters<typeof client.messages.create>[0]['tools']>,
       })
       return {
-        blocks: res.content.map(b =>
-          b.type === 'text' ? { type: 'text', text: b.text }
-          : b.type === 'tool_use' ? { type: 'tool_use', id: b.id, name: b.name, input: b.input as Record<string, unknown> }
-          : { type: 'text', text: '' }),
+        // Only text and tool_use come back through the seam, and never an empty text block: the API
+        // refuses one on the next turn ("text content blocks must be non-empty"). Found by the first
+        // real run, not by the tests — the null model never produced one.
+        blocks: res.content.flatMap((b): Block[] =>
+          b.type === 'text' ? (b.text.trim() ? [{ type: 'text', text: b.text }] : [])
+          : b.type === 'tool_use' ? [{ type: 'tool_use', id: b.id, name: b.name, input: b.input as Record<string, unknown> }]
+          : []),
         stop: res.stop_reason === 'tool_use' ? 'tool_use' : res.stop_reason === 'max_tokens' ? 'max_tokens' : 'end_turn',
         usage: { input: res.usage.input_tokens, output: res.usage.output_tokens },
       }

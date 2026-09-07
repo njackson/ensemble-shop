@@ -1,11 +1,24 @@
 {
   "id": "bracket-charge",
-  "note": "The story's order. The right reply says $610.53 and $12.99, and calls it the bracket price.",
+  "note": "The story's order. The right reply says $610.53 and $12.99, calls it the bracket price, and says it applied because 47 of one style across two colors is past 36. The first real run got the numbers right and the reason wrong; the mustAvoid list is that finding.",
   "email": {
     "from": "ana@example.com",
     "subject": "Was I charged the bracket price?",
     "body": "Hi, I ordered 47 shirts last week, order 1001, split between red and blue. I thought past 36 I'd get the bracket price. Can you confirm what I was charged?"
   },
-  "mustMention": ["\\$610\\.53", "\\$12\\.99", "bracket price"],
-  "mustAvoid": ["discount", "\\$612\\.42"]
+  "mustMention": [
+    "\\$610\\.53",
+    "\\$12\\.99",
+    "bracket price"
+  ],
+  "mustAvoid": [
+    "discount",
+    "\\$612\\.42",
+    "per line",
+    "per color",
+    "individually",
+    "neither color",
+    "didn't reach",
+    "did not reach"
+  ]
 }

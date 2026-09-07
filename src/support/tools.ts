@@ -26,9 +26,19 @@ export function runTool(name: string, input: Record<string, unknown>, ctx: ToolC
   if (name === 'lookup_order') {
     const order = ctx.store.get(String(input.order_id))
     if (!order || order.customer !== ctx.customer) return { error: `No order ${input.order_id} for this customer` }
+    // The bracket rule travels as data, not as a sentence in the prompt: units per style across the
+    // whole order, and which price each line was priced at. The first real run got the numbers right
+    // and the reason wrong ("neither color reached 36"); this is the fix that held.
+    const unitsByStyle: Record<string, number> = {}
+    for (const l of order.lines) unitsByStyle[l.style] = (unitsByStyle[l.style] ?? 0) + l.qty
     return {
       order_id: order.id, status: order.status, placed_at: order.placedAt,
-      lines: order.lines.map(l => ({ style: l.style, color: l.color, qty: l.qty, unit_cents: l.unitCents, line_cents: l.cents })),
+      lines: order.lines.map(l => ({
+        style: l.style, color: l.color, qty: l.qty, unit_cents: l.unitCents, line_cents: l.cents,
+        priced_at: ctx.prices[l.style] && l.unitCents === ctx.prices[l.style].bracketCents ? 'bracket price' : 'list price',
+      })),
+      units_by_style: unitsByStyle,
+      bracket_rule: 'The bracket is judged per style across the whole order, all colors combined, not per line.',
       total_cents: order.totalCents,
     }
   }
