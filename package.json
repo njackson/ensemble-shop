@@ -8,9 +8,14 @@
     "test": "vitest run",
     "test:acceptance": "vitest run test/acceptance",
     "test:unit": "vitest run test/unit test/characterization test/smoke.test.ts",
-    "test:pending": "vitest run --config vitest.pending.config.ts"
+    "test:pending": "vitest run --config vitest.pending.config.ts",
+    "start": "tsx src/main.ts",
+    "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
+    "@anthropic-ai/sdk": "^0.124.0",
+    "@types/node": "^26.4.1",
+    "tsx": "^4.23.13",
     "typescript": "^5.9.3",
     "vitest": "^3.2.7"
   }
