@@ -7,10 +7,12 @@
   "scripts": {
     "test": "vitest run",
     "test:acceptance": "vitest run test/acceptance",
-    "test:unit": "vitest run test/unit test/characterization test/smoke.test.ts",
+    "test:unit": "vitest run test/unit test/characterization test/support test/smoke.test.ts",
     "test:pending": "vitest run --config vitest.pending.config.ts",
     "start": "tsx src/main.ts",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "support": "tsx src/support/cli.ts",
+    "eval": "tsx src/support/eval.ts"
   },
   "devDependencies": {
     "@anthropic-ai/sdk": "^0.124.0",

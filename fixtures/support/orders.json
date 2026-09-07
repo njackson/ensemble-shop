@@ -1,0 +1,31 @@
+[
+  {
+    "id": "1001", "customer": "ana@example.com", "placedAt": "2026-09-01T16:12:00Z", "status": "shipped",
+    "lines": [
+      { "style": "BC3001", "color": "red",  "qty": 20, "unitCents": 1299, "cents": 25980 },
+      { "style": "BC3001", "color": "blue", "qty": 27, "unitCents": 1299, "cents": 35073 }
+    ],
+    "totalCents": 61053
+  },
+  {
+    "id": "1002", "customer": "ben@example.com", "placedAt": "2026-09-02T09:40:00Z", "status": "delivered",
+    "lines": [
+      { "style": "BC3001", "color": "blue", "qty": 40, "unitCents": 1299, "cents": 51960 }
+    ],
+    "totalCents": 51960
+  },
+  {
+    "id": "1003", "customer": "ana@example.com", "placedAt": "2026-09-04T11:05:00Z", "status": "placed",
+    "lines": [
+      { "style": "G5000", "color": "black", "qty": 24, "unitCents": 790, "cents": 18960 }
+    ],
+    "totalCents": 18960
+  },
+  {
+    "id": "1004", "customer": "cara@example.com", "placedAt": "2026-09-04T15:30:00Z", "status": "shipped",
+    "lines": [
+      { "style": "BC3413", "color": "grey", "qty": 36, "unitCents": 1520, "cents": 54720 }
+    ],
+    "totalCents": 54720
+  }
+]
