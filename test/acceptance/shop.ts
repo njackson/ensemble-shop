@@ -1,12 +1,13 @@
 import { createShop } from '../../src/server.js'
 import { memoryStore, type StoredOrder } from '../../src/store.js'
+import { defaultFlags, type Flags } from '../../src/flags.js'
 import type { AddressInfo } from 'node:net'
 
 // Runs the real server on an ephemeral port for a test, and tears it down. Sociable: nothing is
-// mocked; the only fake is the in-memory store, which is the same one `pnpm start` uses.
-export async function runningShop(opts: { seed?: StoredOrder[]; flags?: Record<string, boolean> } = {}) {
+// mocked; the only stand-in is the in-memory store, which is the same one `pnpm start` uses.
+export async function runningShop(opts: { seed?: StoredOrder[]; flags?: Partial<Flags> } = {}) {
   const store = memoryStore(opts.seed)
-  const server = createShop({ store, ...(opts.flags ? { flags: opts.flags } : {}) } as Parameters<typeof createShop>[0])
+  const server = createShop({ store, flags: { ...defaultFlags, ...opts.flags } })
   await new Promise<void>(r => server.listen(0, r))
   const base = `http://localhost:${(server.address() as AddressInfo).port}`
   return {

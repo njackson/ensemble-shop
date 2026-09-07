@@ -1,17 +1,22 @@
 import { createServer as httpServer, type IncomingMessage, type ServerResponse } from 'node:http'
-import type { Order } from './orders.js'
+import { priceOrder, type Order, type PricedOrder } from './orders.js'
+import { loadPriceList, type PriceList } from './pricing/priceList.js'
+import { defaultFlags, type Flags } from './flags.js'
 import type { OrderStore } from './store.js'
 
-// The walking skeleton (Module 03): the thinnest path that goes all the way through and is real.
-// POST an order, get an id back. It prices nothing yet. That is the point of a skeleton: it proves
-// the pipes connect before any of the pipes carry anything.
-export type ShopDeps = { store: OrderStore }
+// The shop over HTTP. Three routes, one per slice in docs/refinement/checkout-slices.md:
+//   POST /orders      — the walking skeleton, then priced (slice 2, behind the flag)
+//   GET  /orders/:id  — read it back (slice 3)
+//   GET  /health
+export type ShopDeps = { store: OrderStore; prices?: PriceList; flags?: Flags }
 
-export function createShop({ store }: ShopDeps) {
+export function createShop({ store, prices = loadPriceList(), flags = defaultFlags }: ShopDeps) {
   return httpServer(async (req, res) => {
     try {
-      if (req.method === 'POST' && req.url === '/orders') return placeOrder(req, res, store)
-      if (req.method === 'GET' && req.url === '/health') return json(res, 200, { ok: true })
+      const url = req.url ?? '/'
+      if (req.method === 'POST' && url === '/orders') return placeOrder(req, res, { store, prices, flags })
+      if (req.method === 'GET' && url.startsWith('/orders/')) return readOrder(url.slice('/orders/'.length), res, store)
+      if (req.method === 'GET' && url === '/health') return json(res, 200, { ok: true, flags })
       json(res, 404, { error: 'not found' })
     } catch (e) {
       json(res, 500, { error: (e as Error).message })
@@ -19,16 +24,29 @@ export function createShop({ store }: ShopDeps) {
   })
 }
 
-async function placeOrder(req: IncomingMessage, res: ServerResponse, store: OrderStore) {
+async function placeOrder(req: IncomingMessage, res: ServerResponse, d: Required<ShopDeps>) {
   const body = JSON.parse(await text(req)) as { customer: string; lines: Order['lines'] }
-  const stored = store.put({
-    customer: body.customer,
-    lines: body.lines.map(l => ({ ...l, unitCents: 0, cents: 0 })),
-    totalCents: 0,
-    placedAt: new Date().toISOString(),
-    status: 'placed',
-  })
+  const order: Order = { lines: body.lines }
+  // Flag off: every unit at list price, which is what the shop charged before Monday. Flag on: the
+  // bracket rule, judged per style across the order — the fix, released separately from its deploy.
+  const priced: PricedOrder = d.flags.bracketPricing ? priceOrder(order, d.prices) : atList(order, d.prices)
+  const stored = d.store.put({ ...priced, customer: body.customer, placedAt: new Date().toISOString(), status: 'placed' })
   json(res, 201, stored)
+}
+
+function atList(order: Order, prices: PriceList): PricedOrder {
+  const lines = order.lines.map(l => {
+    const row = prices[l.style]
+    if (!row) throw new Error(`Unknown style ${l.style}`)
+    return { ...l, unitCents: row.listCents, cents: row.listCents * l.qty }
+  })
+  return { lines, totalCents: lines.reduce((s, l) => s + l.cents, 0) }
+}
+
+function readOrder(id: string, res: ServerResponse, store: OrderStore) {
+  const order = store.get(id)
+  if (!order) return json(res, 404, { error: `no order ${id}` })
+  json(res, 200, order)
 }
 
 function text(req: IncomingMessage): Promise<string> {
