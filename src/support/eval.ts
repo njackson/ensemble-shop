@@ -53,7 +53,7 @@ export function table(r: EvalResult): string {
   ].filter(Boolean).join('\n')
 }
 
-// `pnpm eval -- --runs 5 [--model anthropic] [--seed 7] [--wobble 0.2] [--traces]`
+// `pnpm eval --runs 5 [--model anthropic] [--seed 7] [--wobble 0.2] [--traces]`
 if (process.argv[1] && process.argv[1].endsWith('eval.ts')) {
   const arg = (k: string, d: string) => { const i = process.argv.indexOf(`--${k}`); return i > 0 ? process.argv[i + 1] : d }
   const runs = Number(arg('runs', '5'))

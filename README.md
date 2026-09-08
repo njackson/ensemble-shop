@@ -5,10 +5,13 @@
 commands get you working:
 
 ```
-git switch -c my-01 01-before    # the story's first checkpoint; each module has one (table below)
-pnpm install && pnpm test
-/guide 01                        # in Claude Code: the tutor runs the module's drill here
+pnpm install && pnpm test        # the gate, green
+/guide                           # in Claude Code, on main: the tutor takes it from here
 ```
+
+Stay on `main`. For a module with a checkpoint, the tutor makes a worktree from the tag
+(`git worktree add ../shop-01 -b my-01 01-before`) and runs the drill there, so the tutor, the skills and
+your progress file stay current while you work on an older tree.
 
 It is the shop the course's story happens in: a small wholesale storefront with a pricing file nobody
 wants to open, a ticket that went wrong on a Monday and right on a Tuesday, an order of 47 shirts, 20
@@ -19,9 +22,9 @@ the bracket is 36 units, and past it the price is $12.99.
 
 ## The story, as tags
 
-Each checkpoint is a git tag. A module's drill runs on a branch from the checkpoint before it, and the
-reference is looked at only afterwards; the tutor does the branching and the diffing for you and says
-which tag it used.
+Each checkpoint is a git tag. A module's drill runs in a worktree from the checkpoint before it, and the
+reference is looked at only afterwards; the tutor makes the worktree and does the diffing, and says which
+tag it used.
 
 | Tag | Where the story is | Module |
 |---|---|---|
