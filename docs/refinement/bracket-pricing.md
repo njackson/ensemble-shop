@@ -1,6 +1,11 @@
 # Bracket pricing — Tuesday's table
 
-**Ticket.** *Orders past the bracket quantity should get the bracket price.* (Priya, Monday.)
+**Background.** The supplier charges the shop the same per unit at any quantity. The bracket price is the
+shop's own ladder: Priya set $12.99 for 36 or more of a style against a $14.50 list price, funded from
+margin, to keep the screen printers who order by the case. Finance signed off on the cost and owns it.
+
+**Ticket.** *Bracket price on the storefront. Anyone ordering 36 or more of a style should get the bracket
+price instead of list. I have been fixing these invoices by hand.* (Priya, Monday.)
 
 **What happened on Monday.** Tom applied the bracket per line and shipped. A customer ordering 47
 BC3001 shirts as 20 red and 27 blue was charged list price on both lines. Priya meant the whole order.
@@ -22,8 +27,8 @@ BC3001 shirts as 20 red and 27 blue was charged list price on both lines. Priya 
 - 20 BC3001 and 27 BC3413 are two styles under the bracket. Both bill at list.
 
 **Questions (red)**
-- If a customer returns units and the order drops below 36, is the rest re-priced?
-  **Owner: Priya** (asking finance). Carried as an accepted unknown; listed in the report until closed.
+- If a customer returns units and the order drops below 36, is the rest re-priced? The bracket comes out
+  of margin, so this is finance's call. **Owner: Priya** (asking finance). Carried as an accepted unknown; listed in the report until closed.
 
 ## Reading the table
 

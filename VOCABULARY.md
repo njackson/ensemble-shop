@@ -5,7 +5,8 @@ One line per term: the word, what it means here, what it explicitly does not mea
 - **list price** — the per-unit price of a style below its bracket. Not a "regular" price; the odd one out.
 - **bracket** — the quantity of one style at or past which the bracket price applies. 36 for tees.
 - **bracket price** — the per-unit price at or past the bracket. *Not a discount.* Nothing in the code
-  subtracts from a list price; the bracket price is looked up, not derived.
+  subtracts from a list price; the bracket price is looked up, not derived. It is the shop's own price, set by
+  Priya and funded from margin; the supplier's price does not change with quantity.
 - **order** — what the customer asked for: lines of style, color and quantity. The bracket is judged
   per style across the whole order, not per line.
 - **repriceOrder** — the one operation that sets an order's prices. Nothing else may set a price.

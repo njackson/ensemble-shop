@@ -17,8 +17,11 @@ It is the shop the course's story happens in: a small wholesale storefront with 
 wants to open, a ticket that went wrong on a Monday and right on a Tuesday, an order of 47 shirts, 20
 red and 27 blue, that keeps coming back, and a support agent that answers customers' email about it.
 
-Tom, Ana and Priya are invented. So is the shop. The numbers are the course's: BC3001 lists at $14.50,
-the bracket is 36 units, and past it the price is $12.99.
+Tom, Ana and Priya are invented. So is the shop. It sells blank T-shirts to screen printers and small
+brands. The supplier charges the same per unit at 12 shirts or 72, so every price is the shop's own: BC3001
+lists at $14.50, and Priya set a bracket price of $12.99 for 36 or more of a style, paid for out of the shop's
+margin to keep the printers who order by the case. Finance owns what that costs, which is why the question of
+re-pricing a partial return is theirs to answer.
 
 ## The story, as tags
 
