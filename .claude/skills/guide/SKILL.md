@@ -28,7 +28,8 @@ Read `.guide/progress.md`. If it does not exist, create it from the template at 
 file. The shop ships one with placeholders in angle brackets; either way, if `Mode` or `Started` is
 still a placeholder, this is the first run: ask two things and record the answers, with today's date:
 which repository this is (the companion shop, or their own), and whether they are working alone or
-with a team. Ask nothing else on the first run; then carry on to the module.
+with a team. Commit the file (`git add .guide/progress.md && git commit -m "guide: first run"`). Ask
+nothing else on the first run; then carry on to the module.
 
 Then decide the module:
 
@@ -37,8 +38,10 @@ Then decide the module:
 - `/guide check` → re-run the witness on the module most recently marked `in progress`, without
   repeating the drill.
 
-Say, in one line, which module you are on and what the drill is. Then put the reader where the
-module runs (the table in the next section, for the shop) and begin the drill.
+Say, in one line, which module you are on and what the drill is. Set that module's status to
+`in progress` in `progress.md`, with the drill in one line, so `/guide check` has something to find
+if the reader stops halfway. Then put the reader where the module runs (the table in the next
+section, for the shop) and begin the drill.
 
 ## The companion shop
 
@@ -65,10 +68,12 @@ these; ignore them, they are not in use. After a drill that has a reference,
 after, never before. The reference is one answer, not the answer. Where there is no reference, say
 so and skip the step. Leave the worktree in place at the close; `git worktree list` shows them all.
 
-Two facts about the shop to say out loud when they matter. At `01-before` nothing calls
-`priceLine`; the page's "the one place that calls it in production" does not exist here, the pin is
-its first caller, and that is a smaller shop than the story's, not a trick. And there is no module
-after 13: at its close, say so and point at the primer's reading path.
+Three facts about the shop to say out loud when they matter. At `01-before` nothing calls
+`priceLine`: the page says the callers pass the real price list, and here there are none yet, so the
+pin is its first caller — a smaller shop than the story's, not a trick. The seam therefore leaves
+`src/db.ts` with no caller either; say to leave it, because the reference reaches it through a
+`priceListFromDb()` the diff will show afterwards. And there is no module after 13: at its close,
+say so and point at the primer's reading path.
 
 The shop's answer key for Module 10, for after the reader has counted: the context file says prices
 are read from `src/pricing/prices.ts` (they are in `data/prices.json`); that a $1.89 carton fee applies
@@ -91,7 +96,7 @@ right-hand column; if it is absent, the drill is not done, however good the conv
 
 | Module | Drill (30 min) | Evidence to check |
 |---|---|---|
-| 01 | Pin one untested function with the deliberately-wrong-assertion trick. | A test file asserting values that came from runs; the values are the record, since the runs leave none. The commit that adds the test touches no source file: `git show --stat`. If the function could not run without a seam (on the shop it cannot: `priceLine` reaches for a database), the seam is its own, earlier commit, and you say so before the reader starts. |
+| 01 | Pin one untested function with the deliberately-wrong-assertion trick. | A test file asserting values that came from runs; the values are the record, since the runs leave none. The commit that adds the test touches no source file: `git show --stat`, and the suite is green at that commit: run it there, since a pasted value can be wrong. If the function could not run without a seam (on the shop it cannot: `priceLine` reaches for a database), the seam is its own, earlier commit, and you say so before the reader starts. |
 | 02 | Map the next ticket: story, rules, examples with real values, questions. | A mapping file. Every rule has at least one example; every example has a number or a name in it; every open question has an owner's name. |
 | 03 | Cut one ticket into three slices; ship the first before writing the second. | Three slices written down, each passing the three questions (demo, ship, observable). The first is merged or deployed before the second exists in the tracker or the log. On the shop: `docs/refinement/checkout-slices.md` is the reference cut; the reader's own cut of a backlog ticket is the drill. |
 | 04 | Read ten test names aloud to someone who does not write code. | The ten names, and which were mechanism names (`should call save on…`). A vocabulary file exists or was started; at least one rename landed. |
@@ -138,6 +143,10 @@ dispatch it.
 Ask for one sentence: the thing they learned that they would not have learned from the page alone.
 Write it into `progress.md` under `## Scars`. That sentence is their scar, and it is the part of the
 course that is theirs.
+
+Commit the record on `main`: `git add .guide/progress.md && git commit -m "guide: module NN"`. It is
+the reader's file, but an uncommitted one does not survive a reset or a reclone, and the point of
+it is to survive.
 
 Then say what the next module is, in one line, and stop. After 13 there is none: say the course is
 done, and that the primer's reading path is what is left.
